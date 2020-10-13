@@ -1,28 +1,60 @@
 ## Ambiente 
 
- Aplicação foi testada com JRE8, MVN (back-end) e React Js (front-end).
+ Aplicação foi testada com JRE8, MVN, utilizando Spring-boot (back-end) e React Js (front-end).
  
 ## MySQL
 
-O projeto usa MySQL e deve existir já o banco `sinapsi` (configurações adiconais no: backend/src/main/resources/application.properties). Caso queira gerar as tabelas manualmente, abaixo desse README tem os comandos SQL.
+O projeto usa MySQL e já deve existir o banco `sinapsi` (configurações adiconais do banco em: sinapsi-master/backend/src/main/resources/application.properties). Caso queira gerar as tabelas manualmente, abaixo desse README tem os comandos SQL.
 
 ## Compilação
 
- Para compilar immporte o projeto no Eclipse (*Import as Maven Projeto*) 
+ Para compilar importe o projeto no Eclipse (*Existing Maven Project*) 
 
 ## URL e Inicialização Back-end
 
-Para executar na linha de comando entrar no diretório backend e digitar:
+Para executar na linha de comando, após o build e download das dependências pelo Eclipse, acessar sinapsi-master/backend e digitar:
 
 	mvn spring-boot:run
 	
-Está configurada a URL apenas como servidor:
+Está configurada a seguinte URL **apenas** como servidor:
 
   http://localhost:8080/api/
 
+Para testar apenas a parte back-end do CRUD pode ser utilizada alguma ferramenta para requisições http, como o https://insomnia.rest/download/, por exemplo.
+
+Visualizar todas as subestações:
+GET: http://localhost:8080/api/subestacoes
+
+Filtrar por ID:
+GET: http://localhost:8080/api/subestacoes/id
+
+Incluir subestação:
+POST: http://localhost:8080/api/subestacoes/
+Enviar os dados no body (O código não pode ser repetido):
+{
+  "codigo": "LAP",
+  "nome": "Subestação R",
+  "latitude": 21.0,
+  "longitude": 32.0
+}
+
+Editar:
+PUT: http://localhost:8080/api/editar/id
+{
+  "codigo": "MIP",
+  "nome": "Subestação A",
+  "latitude": 21.0,
+  "longitude": 32.0
+}
+
+Deletar:
+DELETE: http://localhost:8080/api/subestacoes/id
+
 ## URL e Inicialização Front-end
 
-Na pasta raiz rodar o comando:
+Na pasta /sinapsi-master/sinapsi rodar o comando:
+  
+  npm install
   
   npm start
   
