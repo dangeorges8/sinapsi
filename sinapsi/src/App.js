@@ -1,46 +1,65 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AddSubestacaoComponent from './components/AddSubestacaoComponent';
-import HomeComponent from './components/HomeComponent';
-import ListaSubestacoesComponent from './components/ListaSubestacoesComponent';
-import VerNoMapaComponent from './components/VerNoMapaComponent';
+import Header from './components/Header';
+import AddSubestacao from './components/AddSubestacao';
+import Home from './components/Home';
+import ListaSubestacoes from './components/ListaSubestacoes';
 import EditaSubestacao from './components/EditaSubestacao';
+import DataService from './services/DataService';
+
+import { validarCodigo, validarLatitude, validarLongitude } from './models/ValidacaoCadastro'
+import ValidacoesCadastro from './contexts/ValidacoesCadastro';
 
 class App extends Component {
-
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <a href="/home" className="navbar-brand">Home</a>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/subestacoes"} className="nav-link">
-               Subestações
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to={"/adiciona"} className="nav-link">
-               Adiciona
-              </Link>
-            </li>
-          </div>
-        </nav>
+      <div className="container">
+        <Header />
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/home"]} component={HomeComponent}/>
-            <Route exact path={["/subestacoes/:id", "/subestacoes"]}
-              component={ListaSubestacoesComponent}/>
-              <Route exact path="/adiciona" 
-              component={AddSubestacaoComponent}/>
-            <Route exact path="/editar/:id" component={EditaSubestacao}/>
+            <Route
+              exact path={["/", "/home"]}
+              component={Home}
+            />
+            <Route
+              exact path={["/subestacoes/:id", "/subestacoes"]}
+              component={ListaSubestacoes}
+            />
+            <ValidacoesCadastro.Provider value={{
+                  codigo: validarCodigo,
+                  latitude: validarLatitude,
+                  longitude: validarLongitude
+                }}>
+            <Route
+              exact path="/adiciona"
+              render={props => <AddSubestacao {...props}
+                aoEnviar={incluirSubestacao}
+              />}
+            />
+            <Route
+              exact path="/editar/:id"
+              render={props => <EditaSubestacao {...props}
+                aoEnviar={incluirSubestacao}
+              />}
+            />
+            </ValidacoesCadastro.Provider>
           </Switch>
         </div>
       </div>
     )
   }
+}
+
+function incluirSubestacao(data) {
+  DataService.create(data)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
 }
 
 const AppWithRouter = withRouter(App);

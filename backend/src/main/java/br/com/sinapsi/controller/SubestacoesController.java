@@ -58,7 +58,7 @@ public class SubestacoesController {
 			Subestacao novaSubestacao = subestacaoRepository.save(subestacaoRecebida);
 			return new ResponseEntity<>(novaSubestacao, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(null, HttpStatus.CONFLICT);
 		}
 	}
 
