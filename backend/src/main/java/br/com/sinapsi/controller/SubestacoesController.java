@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sinapsi.models.Subestacao;
@@ -50,6 +51,18 @@ public class SubestacoesController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
+	@GetMapping("/subestacao")
+	public ResponseEntity<Subestacao> getSubestacaoByCodigo(@RequestParam(required = false) String codigo) {
+		try {
+			Subestacao subestacao = subestacaoRepository.findByCodigo(codigo);
+			if(subestacao.getCodigo().contentEquals(codigo)) {
+				return new ResponseEntity<>(subestacao, HttpStatus.OK);
+			}return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@PostMapping("/subestacoes")
 	public ResponseEntity<Subestacao> createEstacao(@RequestBody Subestacao subestacao) {
 		Subestacao subestacaoRecebida = new Subestacao(subestacao.getCodigo(), subestacao.getNome(),
@@ -82,11 +95,12 @@ public class SubestacoesController {
 	public ResponseEntity<HttpStatus> deleteSubestacao(@PathVariable("id") Long id) {
 		if (id != null) {
 			try {
-					subestacaoRepository.deleteById(id);
-					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				subestacaoRepository.deleteById(id);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			} catch (Exception e) {
 				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		} return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 }

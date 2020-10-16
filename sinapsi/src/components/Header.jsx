@@ -5,16 +5,16 @@ export default class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand navbar-dark bg-dark" >
-        <a href="/home" className="navbar-brand">Home</a>
+        <a href="/home" className="navbar-brand"></a>
         <div className="navbar-nav mr-auto">
-          <li className="nav-item">
+          <li className="navbar-brand">
             <Link to={"/subestacoes"} className="nav-link">
               Subestações
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="navbar-brand">
             <Link to={"/adiciona"} className="nav-link">
-              Adiciona
+              Adicionar
             </Link>
           </li>
         </div>

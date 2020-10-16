@@ -3,21 +3,22 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './components/Header';
-import AddSubestacao from './components/AddSubestacao';
+import AddSubestacao from './components/formularios/AddSubestacao';
 import Home from './components/Home';
+import VerNoMapa from './components/VerNoMapa';
 import ListaSubestacoes from './components/ListaSubestacoes';
-import EditaSubestacao from './components/EditaSubestacao';
-import DataService from './services/DataService';
+import EditaSubestacao from './components/formularios/EditaSubestacao';
 
-import { validarCodigo, validarLatitude, validarLongitude } from './models/ValidacaoCadastro'
+import { validarCodigo, validarLatitude, validarLongitude, validarCodigoRede } from './models/ValidacaoCadastro'
 import ValidacoesCadastro from './contexts/ValidacoesCadastro';
+import { Box } from '@material-ui/core';
 
 class App extends Component {
   render() {
     return (
-      <div className="container">
+      <Box width="100%" display="flex" flexDirection="column">
         <Header />
-        <div className="container mt-3">
+        <div className="mx-auto" style={{width: 1000 + 'px'}}>
           <Switch>
             <Route
               exact path={["/", "/home"]}
@@ -27,40 +28,43 @@ class App extends Component {
               exact path={["/subestacoes/:id", "/subestacoes"]}
               component={ListaSubestacoes}
             />
+            <Route
+              exact path={["/mapa/:id", "/mapa"]}
+              component={VerNoMapa}
+            />
             <ValidacoesCadastro.Provider value={{
                   codigo: validarCodigo,
+                  codigoRede: validarCodigoRede,
                   latitude: validarLatitude,
                   longitude: validarLongitude
                 }}>
             <Route
               exact path="/adiciona"
-              render={props => <AddSubestacao {...props}
-                aoEnviar={incluirSubestacao}
-              />}
+              component={AddSubestacao}
             />
             <Route
               exact path="/editar/:id"
               render={props => <EditaSubestacao {...props}
-                aoEnviar={incluirSubestacao}
               />}
             />
             </ValidacoesCadastro.Provider>
           </Switch>
         </div>
-      </div>
+      </Box>
     )
   }
 }
 
-function incluirSubestacao(data) {
+/*function incluirSubestacao(data) {
   DataService.create(data)
     .then(response => {
       console.log(response.data);
     })
     .catch(e => {
       console.log(e);
+      return e;
     });
-}
+}*/
 
 const AppWithRouter = withRouter(App);
 

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function useErros(validacoes) {
   const [erros, setErros] = useState(
     {
       codigo: { valido: true, texto: "" },
+      codigoRede: { valido: true, texto: "" },
       latitude: { valido: true, texto: "" },
       longitude: { valido: true, texto: "" }
     }
   );
 
-  function validarCampos(event) {
+  async function validarCampos(event) {
     const { name, value } = event.target;
     const novoEstado = { ...erros};
-    novoEstado[name] = validacoes[name](value);
+    novoEstado[name] = await validacoes[name](value);
     setErros(novoEstado)
   }
 

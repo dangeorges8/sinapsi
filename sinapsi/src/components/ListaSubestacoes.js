@@ -5,7 +5,7 @@ import { ReactComponent as DeleteSVG } from '../assets/delete.svg'
 import { ReactComponent as EditSVG } from '../assets/edit.svg'
 import { ReactComponent as MapSVG } from '../assets/map.svg'
 
-export default class ListaSubestacoesComponent extends Component {
+export default class ListaSubestacoes extends Component {
   constructor(props) {
     super(props);
     this.listaSubestacoes = this.listaSubestacoes.bind(this);
@@ -58,10 +58,11 @@ export default class ListaSubestacoesComponent extends Component {
     return (
 
       <div className="container">
+        <br/>
         <h4>Subestações</h4>
         <br />
         <table className="table table-responsive-md table-hover">
-          <thead>
+          <thead className="thead-dark">
             <tr>
               <th scope="col" >Código</th>
               <th scope="col" >Nome</th>
@@ -78,23 +79,27 @@ export default class ListaSubestacoesComponent extends Component {
                 <th >
                   <a
                     href="/subestacoes"
-                    onClick={this.deleteSubestacao.bind(this, subestacao.id_subestacao)}
+                    onClick={this.deleteSubestacao.bind(this, subestacao.id)}
                   >
                     <DeleteSVG />
                   </a>
                 </th>
                 <th >
                   <Link
-                    to={"/editar/" + subestacao.id_subestacao}><EditSVG />
+                    to={"/editar/" + subestacao.id}><EditSVG />
                   </Link>
                 </th>
-                <th><MapSVG /></th>
+                <th>
+                <Link
+                    to={"/mapa/" + subestacao.id}><MapSVG />
+                  </Link>
+                </th>
               </tr>
             </tbody>
           )
           )}
         </table>
-        <Link to="/adiciona" renderAs={Link} className="btn btn-success">Incluir</Link>
+        <Link to="/adiciona" renderas={Link} className="btn btn-success">Incluir</Link>
       </div>
     )
   }

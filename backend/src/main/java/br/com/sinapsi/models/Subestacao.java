@@ -1,10 +1,16 @@
 package br.com.sinapsi.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.Transient;
@@ -16,7 +22,7 @@ public class Subestacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_subestacao")
-	private Long id_subestacao;
+	private Long id;
 
 	@Column(name = "codigo")
 	private String codigo;
@@ -29,6 +35,9 @@ public class Subestacao {
 
 	@Column(name = "longitude")
 	private Double longitude;
+	
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subestacao")
+//	private List<Rede> redes = new ArrayList<>();
 
 	public Subestacao() {
 	}
@@ -41,12 +50,20 @@ public class Subestacao {
 		this.longitude = longitude;
 	}
 	
-	public Long getId_subestacao() {
-		return id_subestacao;
+//	public List<Rede> getRedes() {
+//		return redes;
+//	}
+//	
+//	public void setRedes(List<Rede> redes) {
+//		this.redes = redes;
+//	}
+	
+	public Long getId() {
+		return id;
 	}
 	
-	public void setId_subestacao(Long id_subestacao) {
-		this.id_subestacao = id_subestacao;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getCodigo() {
@@ -83,7 +100,7 @@ public class Subestacao {
 
 	@Override
 	public String toString() {
-		return "Subestacao [id_subestacao=" + id_subestacao + ", codigo=" + codigo + ", nome=" + nome + ", latitude="
+		return "Subestacao [id=" + id + ", codigo=" + codigo + ", nome=" + nome + ", latitude="
 				+ latitude + ", longitude=" + longitude + "]";
 	}
 
