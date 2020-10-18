@@ -1,6 +1,6 @@
-import { Button, TextField, Box, makeStyles } from '@material-ui/core';
+import { TextField, Box, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DataService from '../services/DataService';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function VerNoMapa({ match }) {
   const classes = useStyles();
-  const [id, setId] = useState("");
   const [codigo, setCodigo] = useState("");
   const [nome, setNome] = useState("");
   const [latitude, setLatitude] = useState("");
@@ -27,14 +26,10 @@ export default function VerNoMapa({ match }) {
     getSubestacao(match.params.id);
   }, [])
 
-  useEffect(() => {
-  }, [codigo, nome, latitude, longitude])
-
   function getSubestacao(id) {
     console.log("getSubestacao: " + id)
     DataService.getEditar(id)
       .then(response => {
-        setId(response.data.id);
         setCodigo(response.data.codigo);
         setNome(response.data.nome);
         setLatitude(response.data.latitude);
@@ -107,7 +102,10 @@ export default function VerNoMapa({ match }) {
           <br />
           <h6>Mapa</h6>
           <div>
-          <img src={`https://open.mapquestapi.com/staticmap/v5/map?locations=${latitude},${longitude}&zoom=12&size=800,400&key=xcb2F7YpfI5VJGA4X1luFld5ngKGGXIv&center`}/>
+          <img 
+          src={`https://open.mapquestapi.com/staticmap/v5/map?locations=${latitude},${longitude}&zoom=12&size=800,400&key=xcb2F7YpfI5VJGA4X1luFld5ngKGGXIv&center`}
+          alt="Localização no mapa"
+          />
           </div>
         </div>
         <Link to="/subestacoes" className="btn btn-outline-primary">Voltar</Link>

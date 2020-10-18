@@ -1,4 +1,4 @@
-import { Button, TextField, Box, makeStyles } from '@material-ui/core';
+import { Button, TextField, Box, makeStyles, IconButton } from '@material-ui/core';
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ValidacoesCadastro from '../../contexts/ValidacoesCadastro';
@@ -6,21 +6,10 @@ import useErros from '../../hooks/useErros'
 import DataService from '../../services/DataService';
 import { ReactComponent as DeleteSVG } from '../../assets/delete.svg'
 import { ReactComponent as EditSVG } from '../../assets/edit.svg'
+import { useStyles } from './formulariosStyle';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-  margin: {
-    margin: theme.spacing(1),
-  }
-}));
-
-export default function AddSubestacao() {
-  const classes = useStyles();
+export default function AddSubestacao({ theme }) {
+  const classes = useStyles(theme);
   const [codigo, setCodigo] = useState("");
   const [nome, setNome] = useState("");
   const [latitude, setLatitude] = useState("");
@@ -35,7 +24,7 @@ export default function AddSubestacao() {
 
   useEffect(() => {
 
-  }, [redirecionar, incluirSubestacao, addRede])
+  }, [redirecionar, incluirSubestacao, alteraOuSetRede])
 
   function redirecionar(id) {
     incluirRede(id);
@@ -76,7 +65,7 @@ export default function AddSubestacao() {
       });
   }
 
-  function addRede(rede) {
+  function alteraOuSetRede(rede) {
     console.log(rede.codigoRede);
     var contains = false;
     redes.map(redesGravada =>
@@ -219,11 +208,11 @@ export default function AddSubestacao() {
               nomeRede: nomeRede,
               tensaoNominal: tensaoNominal
             }
-            if(possoEnviar()){
-            addRede(tempRede);
-            setCodigoRede("");
-            setNomeRede("");
-            setTensaoNominal("");
+            if (possoEnviar()) {
+              alteraOuSetRede(tempRede);
+              setCodigoRede("");
+              setNomeRede("");
+              setTensaoNominal("");
             }
           }
           }
@@ -257,16 +246,16 @@ export default function AddSubestacao() {
                   <th>{rede.nomeRede}</th>
                   <th>{rede.tensaoNominal}</th>
                   <th >
-                    <a
+                    <IconButton
                       onClick={() => {
                         deletaRede(index);
                       }}
                     >
                       <DeleteSVG />
-                    </a>
+                    </IconButton>
                   </th>
                   <th >
-                    <a
+                    <IconButton
                       onClick={() => {
                         setCodigoRede(rede.codigoRede);
                         setNomeRede(rede.nomeRede);
@@ -274,7 +263,7 @@ export default function AddSubestacao() {
                       }}
                     >
                       <EditSVG />
-                    </a>
+                    </IconButton>
                   </th>
                 </tr>
               </tbody>

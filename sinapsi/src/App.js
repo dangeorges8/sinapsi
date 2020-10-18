@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './components/Header';
 import AddSubestacao from './components/formularios/AddSubestacao';
-import Home from './components/Home';
 import VerNoMapa from './components/VerNoMapa';
 import ListaSubestacoes from './components/ListaSubestacoes';
 import EditaSubestacao from './components/formularios/EditaSubestacao';
@@ -12,6 +11,7 @@ import EditaSubestacao from './components/formularios/EditaSubestacao';
 import { validarCodigo, validarLatitude, validarLongitude, validarCodigoRede } from './models/ValidacaoCadastro'
 import ValidacoesCadastro from './contexts/ValidacoesCadastro';
 import { Box } from '@material-ui/core';
+import './style.css';
 
 class App extends Component {
   render() {
@@ -21,11 +21,7 @@ class App extends Component {
         <div className="mx-auto" style={{width: 1000 + 'px'}}>
           <Switch>
             <Route
-              exact path={["/", "/home"]}
-              component={Home}
-            />
-            <Route
-              exact path={["/subestacoes/:id", "/subestacoes"]}
+              exact path={["/", "/subestacoes/:id", "/subestacoes"]}
               component={ListaSubestacoes}
             />
             <Route
@@ -54,17 +50,6 @@ class App extends Component {
     )
   }
 }
-
-/*function incluirSubestacao(data) {
-  DataService.create(data)
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(e => {
-      console.log(e);
-      return e;
-    });
-}*/
 
 const AppWithRouter = withRouter(App);
 

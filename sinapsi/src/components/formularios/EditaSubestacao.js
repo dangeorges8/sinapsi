@@ -1,26 +1,15 @@
-import { Button, TextField, Box, makeStyles } from '@material-ui/core';
+import { Button, TextField, Box, IconButton } from '@material-ui/core';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import ValidacoesCadastro from '../../contexts/ValidacoesCadastro';
 import DataService from '../../services/DataService';
-import useErros from '../../hooks/useErros'
-import { ReactComponent as DeleteSVG } from '../../assets/delete.svg'
-import { ReactComponent as EditSVG } from '../../assets/edit.svg'
+import useErros from '../../hooks/useErros';
+import { ReactComponent as DeleteSVG } from '../../assets/delete.svg';
+import { ReactComponent as EditSVG } from '../../assets/edit.svg';
+import { useStyles } from './formulariosStyle';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-  margin: {
-    margin: theme.spacing(1),
-  }
-}));
-
-export default function EditaSubestacao({ match }) {
-  const classes = useStyles();
+export default function EditaSubestacao({ match, theme }) {
+  const classes = useStyles(theme);
   const [id, setId] = useState("");
   const [codigo, setCodigo] = useState("");
   const [nome, setNome] = useState("");
@@ -29,7 +18,6 @@ export default function EditaSubestacao({ match }) {
   const validacoes = useContext(ValidacoesCadastro);
   const [erros, validarCampos] = useErros(validacoes);
   const [redes, setRedes] = useState([]);
-  const [contemRede, setContemRede] = useState(false);
   const [codigoRede, setCodigoRede] = useState("");
   const [nomeRede, setNomeRede] = useState("");
   const [tensaoNominal, setTensaoNominal] = useState("");
@@ -73,8 +61,6 @@ export default function EditaSubestacao({ match }) {
       });
   }
 
-
-
   function alterarSubestacao(id, dados) {
     DataService.update(id, dados)
       .then(response => {
@@ -93,19 +79,6 @@ export default function EditaSubestacao({ match }) {
       }
     }
     return true;
-  }
-
-  function incluirRede(id) {
-    console.log("INCLUIR REDE")
-    console.log(id);
-    console.log(JSON.stringify(redes));
-    DataService.createRede(redes, id)
-      .then(response => {
-        console.log("REDE: " + response.data)
-      })
-      .catch(e => {
-        console.log(e)
-      });
   }
 
   function addRede(rede) {
@@ -141,7 +114,6 @@ export default function EditaSubestacao({ match }) {
       }
     }]
     updateRede(novaRede);
-    
     console.log(JSON.stringify(novaRede));
   }
 
@@ -151,8 +123,6 @@ export default function EditaSubestacao({ match }) {
    await DataService.updateRede(id, rede)
       .then(response => {
         console.log(response.data);
-        
-        //redirecionar();
       })
       .catch(e => {
         console.log(e);
@@ -163,8 +133,6 @@ export default function EditaSubestacao({ match }) {
 
   function alterarOuIncluir(rede) {
     let contains = subestacaoContemRede(rede);
-
-    console.log("CONTAINS: " + contains);
 
     if (contains) {
      alteraRede(rede);
@@ -317,7 +285,6 @@ export default function EditaSubestacao({ match }) {
               setNomeRede("");
               setTensaoNominal("");
             }
-            //addRede(tempRede);
           }
           }
           className={classes.margin}
@@ -345,20 +312,22 @@ export default function EditaSubestacao({ match }) {
             {redes.map((rede, index) => (
               <tbody key={index}>
                 <tr>
-                  <th className="row">{rede.codigoRede}</th>
+                  <th>{rede.codigoRede}</th>
                   <th>{rede.nomeRede}</th>
                   <th>{rede.tensaoNominal}</th>
                   <th >
-                    <a
+                    <IconButton
+                    size="small"
                       onClick={() => {
                         deletaRede(rede.id_rede_mt);
                       }}
                     >
                       <DeleteSVG />
-                    </a>
+                    </IconButton>
                   </th>
                   <th >
-                    <a
+                    <IconButton
+                    size="small"
                       onClick={() => {
                         setCodigoRede(rede.codigoRede);
                         setNomeRede(rede.nomeRede);
@@ -366,7 +335,7 @@ export default function EditaSubestacao({ match }) {
                       }}
                     >
                       <EditSVG />
-                    </a>
+                    </IconButton>
                   </th>
                 </tr>
               </tbody>

@@ -25,7 +25,8 @@ export default class ListaSubestacoes extends Component {
     DataService.getAll()
       .then(
         response => {
-          const result = response.data === [] ? [] : response.data
+          console.log("RESPONSE DATA: " + response.data)
+          const result = response.data === "" ? [] : response.data
           this.setState({
             subestacoes: result
           });

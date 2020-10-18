@@ -5,7 +5,7 @@ export default class Header extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand navbar-dark bg-dark" >
-        <a href="/home" className="navbar-brand"></a>
+        
         <div className="navbar-nav mr-auto">
           <li className="navbar-brand">
             <Link to={"/subestacoes"} className="nav-link">

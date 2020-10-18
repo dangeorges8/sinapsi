@@ -110,15 +110,6 @@ public class RedesController {
 		if(redeData.isPresent()) {
 			redeRepository.deleteById(idRede);			
 		}
-		
-//		for (Rede rede : redesRecebidas) {
-//			Long idRedeRecebida = rede.getId_rede_mt();
-//			Optional<Rede> redeData = redeRepository.findById(idRedeRecebida);
-//			if (redeData.isPresent()) {
-//				Rede novaRede = redeData.get();
-//				redeRepository.delete(novaRede);
-//			}
-//		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
