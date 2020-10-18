@@ -36,7 +36,6 @@ function validarLongitude(longitude) {
 
 async function codigoExistente(codigo) {
   let existe = false;
-  console.log("antes do data service: " + existe)
   await DataService.getByCodigo(codigo)
     .then(response => {
       if (codigo === response.data.codigo) {
@@ -46,13 +45,11 @@ async function codigoExistente(codigo) {
     .catch(e => {
       console.log(e)
     })
-    console.log("depois do data service: " + existe)
     return existe;
 }
 
 async function codigoRedeExistente(codigoRede) {
   let existe = false;
-  console.log("antes do data service: " + existe)
   await DataService.getByCodigoRede(codigoRede)
     .then(response => {
       if (codigoRede === response.data.codigoRede) {
@@ -62,7 +59,6 @@ async function codigoRedeExistente(codigoRede) {
     .catch(e => {
       console.log(e)
     })
-    console.log("depois do data service: " + existe)
     return existe;
 }
 

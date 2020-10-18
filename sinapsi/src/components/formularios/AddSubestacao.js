@@ -1,4 +1,4 @@
-import { Button, TextField, Box, makeStyles, IconButton } from '@material-ui/core';
+import { Button, TextField, Box, IconButton } from '@material-ui/core';
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ValidacoesCadastro from '../../contexts/ValidacoesCadastro';
@@ -43,7 +43,6 @@ export default function AddSubestacao({ theme }) {
   function incluirSubestacao(data) {
     DataService.create(data)
       .then(response => {
-        console.log(response.data);
         redirecionar(response.data.id);
       })
       .catch(e => {
@@ -53,9 +52,6 @@ export default function AddSubestacao({ theme }) {
   }
 
   function incluirRede(id) {
-    console.log("INCLUIR REDE")
-    console.log(id);
-    console.log(JSON.stringify(redes));
     DataService.createListaRedes(id, redes)
       .then(response => {
         console.log("REDE: " + response.data)
@@ -66,7 +62,6 @@ export default function AddSubestacao({ theme }) {
   }
 
   function alteraOuSetRede(rede) {
-    console.log(rede.codigoRede);
     var contains = false;
     redes.map(redesGravada =>
       redesGravada.codigoRede === rede.codigoRede ? contains = true : contains = false)
@@ -76,7 +71,6 @@ export default function AddSubestacao({ theme }) {
     } else {
       setRedes([...redes, rede]);
     }
-    console.log(redes);
   }
 
   function alteraRede(novaRede, codigo) {
@@ -242,11 +236,12 @@ export default function AddSubestacao({ theme }) {
             {redes.map((rede, index) => (
               <tbody key={index}>
                 <tr>
-                  <th className="row">{rede.codigoRede}</th>
+                  <th>{rede.codigoRede}</th>
                   <th>{rede.nomeRede}</th>
                   <th>{rede.tensaoNominal}</th>
-                  <th >
+                  <th>
                     <IconButton
+                    size="small"
                       onClick={() => {
                         deletaRede(index);
                       }}
@@ -256,6 +251,7 @@ export default function AddSubestacao({ theme }) {
                   </th>
                   <th >
                     <IconButton
+                    size="small"
                       onClick={() => {
                         setCodigoRede(rede.codigoRede);
                         setNomeRede(rede.nomeRede);

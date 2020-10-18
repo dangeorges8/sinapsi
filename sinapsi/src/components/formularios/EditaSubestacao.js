@@ -54,7 +54,6 @@ export default function EditaSubestacao({ match, theme }) {
     DataService.getRedesBySubestacao(id)
       .then(response => {
         setRedes(response.data)
-        console.log(response.data)
       })
       .catch(e => {
         console.log(e);
@@ -82,8 +81,6 @@ export default function EditaSubestacao({ match, theme }) {
   }
 
   function addRede(rede) {
-    console.log(JSON.stringify(rede));
-    console.log(id);
     DataService.createRede(id, rede)
       .then(response => {
         console.log("REDE Criada " + response.data);
@@ -99,7 +96,6 @@ export default function EditaSubestacao({ match, theme }) {
     redes.map(redesGravadas =>
       redesGravadas.codigoRede === rede[0].codigoRede ? idAlterado
         = redesGravadas.id_rede_mt : "")
-    console.log(idAlterado);
     var novaRede = [{
       id_rede_mt: idAlterado,
       codigoRede: rede[0].codigoRede,
@@ -114,12 +110,9 @@ export default function EditaSubestacao({ match, theme }) {
       }
     }]
     updateRede(novaRede);
-    console.log(JSON.stringify(novaRede));
   }
 
   async function updateRede(rede) {
-    console.log(JSON.stringify(rede));
-    console.log("DATA SEVICE: " + id);
    await DataService.updateRede(id, rede)
       .then(response => {
         console.log(response.data);
@@ -128,24 +121,20 @@ export default function EditaSubestacao({ match, theme }) {
         console.log(e);
       });
         getRedes(id)
-     
   }
 
   function alterarOuIncluir(rede) {
     let contains = subestacaoContemRede(rede);
-
     if (contains) {
      alteraRede(rede);
     } else {
      addRede(rede);
     }
-    console.log(redes);
   }
 
   function subestacaoContemRede(rede) {
     let contemRede = false;
     redes.map(redeGravada => redeGravada.codigoRede === rede[0].codigoRede ? contemRede = true : false);
-
     return contemRede;
   }
 
